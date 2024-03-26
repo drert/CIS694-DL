@@ -2,7 +2,7 @@ import numpy as np
 
 # params
 r = 3
-n = 10000
+n = 100000
 
 def log_2_monte(R,N) :
     green_count = 0
@@ -16,11 +16,10 @@ def log_2_monte(R,N) :
     # print((green_count / N) * R * R)
     return A
 
-
+print("User Entered Results:")
 print(log_2_monte(r,n))
-sum = 0
-for i in range(1000) :
-    sum += log_2_monte(r,n)
-    if i%10 == 0 :
-        print(i)
-print(sum/100)
+print()
+print("Results for 5,10,15 as requested:")
+print(log_2_monte(5,n))
+print(log_2_monte(10,n))
+print(log_2_monte(15,n))
