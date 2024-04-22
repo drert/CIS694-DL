@@ -1,0 +1,7 @@
+1. Video demo missed training: -15
+2. Video demo missed testing: -15
+3. Training code cannot be run: -15
+4. Testing code cannot be run: -15  
+5. If the structure of code does not match the required network structure: -40
+
+

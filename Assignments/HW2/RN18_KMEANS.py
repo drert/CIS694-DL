@@ -11,6 +11,7 @@ import os
 import numpy as np
 from tifffile import imread
 import random
+import cv2
 
 # FOR INSTRUCTOR VALIDATION:
 #   IT IS EXPECTED THAT THE RELATIVE PATH "database/" IS WHERE THE TRAINING IMAGES WILL BE LOCATED
