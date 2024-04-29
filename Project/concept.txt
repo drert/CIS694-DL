@@ -1,0 +1,23 @@
+Consider a circumstance where pose tracking would be useful to some
+    indie developer -- video game, animator, etc.
+
+Not everyone can afford to rip apart a studio, grid the entire room, etc. 
+
+Instead, I will attempt to make a human pose tracker which is:
+    + 3 dimension-enabled with multiple cameras 
+    + Robust to lighting conditions, variable frame rates.
+    + Potentially a live implementation?
+
+Consider a 2 camera setup spaced at some angle
+
+Use RCNN, Fast-RCNN, or Faster-RCNN - or some modern variant.
+
+Identify pose with both cameras, use one for depth of the other if 90 degree separation.
+    Otherwise, mathematically interpret based on angle difference.
+
+Mask RCNN
+https://arxiv.org/abs/1703.06870   /   https://arxiv.org/pdf/1703.06870
+https://pytorch.org/vision/main/models/mask_rcnn.html
+
+V2 MRCNN
+https://arxiv.org/abs/2111.11429   /   https://arxiv.org/pdf/2111.11429
