@@ -25,3 +25,8 @@ https://arxiv.org/abs/2111.11429   /   https://arxiv.org/pdf/2111.11429
 Help unpacking labels:
 https://github.com/meghshukla/MPII-Human-Pose-Visualization/blob/master/notebooks/mpii_visualization.ipynb
 
+Machine Vision Equations:
+https://cse.usf.edu/~r1k/MachineVisionBook/MachineVision.files/MachineVision_Chapter11.pdf
+
+Paper/Dataset Search
+https://paperswithcode.com/datasets

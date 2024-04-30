@@ -2,7 +2,6 @@ import torch
 import os 
 import torch.nn as nn
 import torch.optim as optim
-import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
@@ -12,8 +11,11 @@ import random
 import torch.nn.functional as F
 from torchinfo import summary
 from torchvision.models.detection import maskrcnn_resnet50_fpn
+import torchvision
+
+model = torchvision.models.detection.maskrcnn_resnet50_fpn()
+model.eval()
+x = [torch.rand(3, 300, 400), torch.rand(3, 500, 400)]
+predictions = model(x)
 
 
-if __name__ == "__main__" :
-    mrcnn = maskrcnn_resnet50_fpn()
-    summary(mrcnn, input_size=(4, 1, 128, 128))
