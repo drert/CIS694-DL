@@ -21,3 +21,7 @@ https://pytorch.org/vision/main/models/mask_rcnn.html
 
 V2 MRCNN
 https://arxiv.org/abs/2111.11429   /   https://arxiv.org/pdf/2111.11429
+
+Help unpacking labels:
+https://github.com/meghshukla/MPII-Human-Pose-Visualization/blob/master/notebooks/mpii_visualization.ipynb
+
