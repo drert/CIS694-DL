@@ -30,3 +30,5 @@ https://cse.usf.edu/~r1k/MachineVisionBook/MachineVision.files/MachineVision_Cha
 
 Paper/Dataset Search
 https://paperswithcode.com/datasets
+
+https://medium.com/analytics-vidhya/distance-estimation-cf2f2fd709d8
