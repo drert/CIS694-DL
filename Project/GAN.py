@@ -121,24 +121,24 @@ class Gen(nn.Module) :
             self.mult = 2
 
         # encode data inits
-        self.enc1 = nn.Conv2d(2 ,16, 4, 2, 1)
-        self.enc2 = Encode(16,32)
-        self.enc3 = Encode(32,64)
-        self.enc4 = Encode(64,128)
-        self.enc5 = Encode(128,128)
-        self.enc6 = Encode(128,128)
-        self.enc7 = Encode(128,128)
-        self.enc8 = Encode(128,128, norm=False)
+        self.enc1 = nn.Conv2d(2 ,32, 4, 2, 1)
+        self.enc2 = Encode(32,64)
+        self.enc3 = Encode(64,128)
+        self.enc4 = Encode(128,256)
+        self.enc5 = Encode(256,256)
+        self.enc6 = Encode(256,256)
+        self.enc7 = Encode(256,256)
+        self.enc8 = Encode(256,256, norm=False)
 
         # decode data inits
-        self.dec8 = Decode(128,128,dropout=True)
-        self.dec7 = Decode(self.mult*128,128,dropout=True)
-        self.dec6 = Decode(self.mult*128,128,dropout=True)
-        self.dec5 = Decode(self.mult*128,128)
-        self.dec4 = Decode(self.mult*128,64)
-        self.dec3 = Decode(self.mult*64,32)
-        self.dec2 = Decode(self.mult*32,16)
-        self.dec1 = nn.ConvTranspose2d(self.mult * 16, 2, 4, 2, 1)
+        self.dec8 = Decode(256,256,dropout=True)
+        self.dec7 = Decode(self.mult*256,256,dropout=True)
+        self.dec6 = Decode(self.mult*256,256,dropout=True)
+        self.dec5 = Decode(self.mult*256,256)
+        self.dec4 = Decode(self.mult*256,128)
+        self.dec3 = Decode(self.mult*128,64)
+        self.dec2 = Decode(self.mult*64,32)
+        self.dec1 = nn.ConvTranspose2d(self.mult * 32, 2, 4, 2, 1)
 
     def forward(self, x):
         e1 = self.enc1(x)

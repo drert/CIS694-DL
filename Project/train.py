@@ -11,12 +11,11 @@ import time
 if __name__ == "__main__" :
     workers = 0 ## NON FUNCTIONAL
     lr = .0001
-    batch_size = 2
+    batch_size = 4
     beta1 = 0.5
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # print(device)
-    epochs = 1
-    alpha = .01
+    print(device)
+    epochs = 4
     image_size = 256
     train_dir = "training_images/"
 
@@ -29,8 +28,7 @@ if __name__ == "__main__" :
     # D.apply(weights_init)
 
     # binary cross-entropy loss for image comparison
-    g_crit = GenLoss(alpha=alpha)
-    d_crit = DisLoss()
+    criterion = nn.BCEWithLogitsLoss()
 
     # generate 2 optimizers for G, D
     optimG = optim.Adam(G.parameters(), lr=lr, betas = (beta1, 0.999))
@@ -40,9 +38,9 @@ if __name__ == "__main__" :
     img_list = []
     G_losses = []
     D_losses = []
-    # G_times = []
-    # D_times = []
-    # tween_times = []
+    G_times = []
+    D_times = []
+    tween_times = []
     iters = 0
 
     # launch dataset
@@ -60,62 +58,82 @@ if __name__ == "__main__" :
     fake_label = 1
 
     for epoch in range(epochs) :
-        # tween_start = time.time()
-        for x, data in enumerate(dataloader,0) :
+        tween_start = time.time()
+        for i, data in enumerate(dataloader,0) :
             # unpack loaded data
             gt, orig_input, inputs = data
-            inputs = inputs.to(device).detach()
+            inputs = inputs.to(device)
             gt = gt.to(device)
             # print(gt.shape, orig_input.shape, inputs.shape)
 
-            # G GEN
+            # timer step
+            tween_end = time.time()
+            tween_times.append(tween_end - tween_start)
+            D_start = time.time()
+
+            # # D network update
+            D.zero_grad()
+
+            # train on all-real batch
+            # generate real labels, compare to results of discrim.
+            size = gt.size(0)
+            label = torch.full((size,), real_label, dtype=torch.float, device=device)
+            output = D(gt).view(-1)
+            errD_real = criterion(output, label)
+            errD_real.backward() # propagate gradient
+            D_x = output.mean().item()
+
+            # train on all-fake batch
+            # generate fake labels, compare to results of discrim.
             fakes = G(inputs)
-            pred_fakes = D(fakes)
-            g_loss = g_crit(fakes, gt, pred_fakes)
-        
-            # G STEP
-            optimG.zero_grad()
-            g_loss.backward()
-            optimG.step()
-            
+            label.fill_(fake_label)
+            output = D(fakes.detach()).view(-1)
+            errD_fake = criterion(output, label)
+            errD_fake.backward() # propagate gradient
+            D_G_z1 = output.mean().item() 
 
-            # D GEN
-            fakes = G(inputs).detach()
-            pred_real =  D(gt)
-            pred_fakes = D(fakes)
-            d_loss = d_crit(pred_fakes, pred_real)
-
-
-            # D STEP
-            optimD.zero_grad()
-            d_loss.backward()
+            errD = errD_fake + errD_real
             optimD.step()
 
- 
+            # timer step
+            D_end = time.time()
+            G_start = time.time()
 
+            # G network update
+            G.zero_grad()
+            label.fill_(real_label)
 
+            # recalculate steps given D was updated
+            output = D(fakes).view(-1)
+            errG = criterion(output, label)
+            errG.backward() # propagate gradient
+            D_G_z2 = output.mean().item()
+            optimG.step()
 
+            # timer step
+            G_end = time.time()
+            tween_start = time.time()
 
-            # tally losses
-            print(g_loss.item())
-            print(d_loss.item())
-            G_losses.append(g_loss.item())
-            D_losses.append(d_loss.item())
+            G_losses.append(errG.item())
+            D_losses.append(errD.item())
 
+            # value checker printout
+            print("GT Mean: " + str(torch.mean(gt).item())
+              + "; GT Max: " + str(torch.max(gt).item())
+              + "; GT Min: " + str(torch.min(gt).item())
+              + "\nGen Mean: " + str(torch.mean(fakes).item())
+              + "; Gen Max: " + str(torch.max(fakes).item())
+              + "; Gen Min: " + str(torch.min(fakes).item())
+            )
 
+            if i % 3 == 0 :
+                print(epoch, i)
 
-            # incremental print
-            if x % 3 == 0 :
-                print(epoch, x)
+            G_times.append(G_end - G_start)
+            D_times.append(D_end - D_start)
 
-                # value checker printout
-                print("GT Mean: " + str(torch.mean(gt).item())
-                  + "; GT Max: " + str(torch.max(gt).item())
-                  + "; GT Min: " + str(torch.min(gt).item())
-                  + "\nGen Mean: " + str(torch.mean(fakes).item())
-                  + "; Gen Max: " + str(torch.max(fakes).item())
-                  + "; Gen Min: " + str(torch.min(fakes).item())
-                )
+        print("G exec. time: " + str(np.average(G_times)) + "; D exec. time: " + str(np.average(D_times)) + "; Tween exec. time: " + str(np.average(tween_times)))
+
     # save model
     # save results
     PATH = './G_PREV.pth'
