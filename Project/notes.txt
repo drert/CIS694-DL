@@ -1,0 +1,31 @@
+
+Mask RCNN
+https://arxiv.org/abs/1703.06870   /   https://arxiv.org/pdf/1703.06870
+https://pytorch.org/vision/main/models/mask_rcnn.html
+
+V2 MRCNN
+https://arxiv.org/abs/2111.11429   /   https://arxiv.org/pdf/2111.11429
+
+Paper/Dataset Search
+https://paperswithcode.com/datasets
+
+Pix-Fix Reference
+https://github.com/DerrickXuNu/Pik-Fix
+
+Colorful Image Colorization
+https://arxiv.org/abs/1603.08511  /  https://arxiv.org/pdf/1603.08511
+
+Focusing on Persons : Historical Photo Colorizing
+https://arxiv.org/pdf/2108.06515
+
+MHMD Historical Clothing Dataset
+https://github.com/BestiVictory/MHMD/blob/main/README.md
+
+DCGAN Tutorial
+https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
+
+CycleGAN
+https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/tree/master/models
+
+model drawing tool
+https://alexlenail.me/NN-SVG/LeNet.html

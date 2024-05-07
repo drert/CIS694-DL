@@ -150,6 +150,7 @@ if __name__ == "__main__" :
     if total_batches < 10:
         total_batches = 10
     running_loss = 0.0
+    
     for s in range(sample_sets) :
         dataset = GrayScaleDS(DB_PATH, transformer, sample_size)
         loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
